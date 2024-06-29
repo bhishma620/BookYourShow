@@ -1,0 +1,15 @@
+spring:
+  application.name: bookyourshow
+  datasource:
+    url: jdbc:mysql://localhost:3306/bookyourshow
+    username: root
+    password: 6209
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+

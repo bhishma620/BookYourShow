@@ -5,6 +5,7 @@ import com.bhishma.bookyourshow.request.movie.MovieRequest;
 import com.bhishma.bookyourshow.service.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,10 @@ public class MovieController {
       return   movieService.save(movieRequest);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Movie>> getAll(){
-        return movieService.getAll();
+
+    @GetMapping
+    public ResponseEntity<List<Movie>>getAll(@RequestParam(defaultValue="0") int pageNo,
+                                             @RequestParam(defaultValue="10") int pageSize){
+        return movieService.getAll(pageNo,pageSize);
     }
-    
 }

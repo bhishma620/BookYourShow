@@ -12,4 +12,6 @@ public interface MovieRepo extends JpaRepository<Movie,Long> {
 
 
     List<Movie> findByTitleContaining(String title, Pageable pageable);
+
+    List<Movie> findByType(String category, Pageable pageable);
 }

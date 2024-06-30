@@ -41,5 +41,12 @@ public class MovieController {
         return movieService.searchByTitle(title,pageNo,pageSize);
     }
 
+    @GetMapping("/search/byCategory")
+    public ResponseEntity<List<Movie>>searchByCategory(@RequestParam("category") String category,
+                                                    @RequestParam(defaultValue="0") int pageNo,
+                                                    @RequestParam(defaultValue="10") int pageSize){
+
+        return movieService.searchByCategory(category,pageNo,pageSize);
+    }
 
 }

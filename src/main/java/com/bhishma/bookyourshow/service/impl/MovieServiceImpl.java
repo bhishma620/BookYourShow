@@ -60,4 +60,12 @@ public class MovieServiceImpl implements MovieService {
         return new ResponseEntity<>(movies,HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<Movie>> searchByCategory(String category, int pageNo, int pageSize) {
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        List<Movie>movies=movieRepo.findByType(category,pageable);
+
+        return new ResponseEntity<>(movies,HttpStatus.OK);
+    }
+
 }

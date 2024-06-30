@@ -51,4 +51,13 @@ public class MovieServiceImpl implements MovieService {
 
     }
 
+    @Override
+    public ResponseEntity<List<Movie>> searchByTitle(String title, int pageNo, int pageSize) {
+
+        Pageable pageable=PageRequest.of(pageNo,pageSize);
+        List<Movie>movies=movieRepo.findByTitleContaining(title,pageable);
+
+        return new ResponseEntity<>(movies,HttpStatus.OK);
+    }
+
 }

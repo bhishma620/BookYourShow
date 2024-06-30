@@ -13,4 +13,6 @@ public interface MovieService {
 
 
     ResponseEntity<List<Movie>> getAll(int pageNo,int offset);
+
+    ResponseEntity<List<Movie>> searchByTitle(String title, int pageNo, int pageSize);
 }

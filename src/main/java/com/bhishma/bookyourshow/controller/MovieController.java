@@ -27,9 +27,19 @@ public class MovieController {
     }
 
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<Movie>>getAll(@RequestParam(defaultValue="0") int pageNo,
                                              @RequestParam(defaultValue="10") int pageSize){
         return movieService.getAll(pageNo,pageSize);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>>searchByTitle(@RequestParam("title") String title,
+                                             @RequestParam(defaultValue="0") int pageNo,
+                                             @RequestParam(defaultValue="10") int pageSize){
+
+        return movieService.searchByTitle(title,pageNo,pageSize);
+    }
+
+
 }

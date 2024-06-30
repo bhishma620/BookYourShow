@@ -17,5 +17,5 @@ public interface MovieRepo extends JpaRepository<Movie,Long> {
 
     List<Movie> findByType(String category, Pageable pageable);
 
-    Optional<Movie>findByTitleAndReleaseDate(String title, Date releaseDate);
+    Optional<Movie> findByTitleAndReleaseDateAndLanguage(String title, Date releaseDate,String language);
 }

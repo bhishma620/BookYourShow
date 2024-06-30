@@ -28,11 +28,13 @@ public class MovieServiceImpl implements MovieService {
     public ResponseEntity<String> save(MovieRequest movieRequest) {
 
 
-
-        Optional<Movie> oldMovie =movieRepo.findByTitleAndReleaseDate(movieRequest.getTitle(),movieRequest.getReleaseDate());
+        Optional<Movie> oldMovie = movieRepo.
+                findByTitleAndReleaseDateAndLanguage(movieRequest.getTitle(), movieRequest.getReleaseDate(), movieRequest.getLanguage());
 
         //If already in DB
-        if(oldMovie.isPresent())return new ResponseEntity<>("Already Exists",HttpStatus.OK);
+        if (oldMovie.isPresent()){
+            return new ResponseEntity<>("Already Exists", HttpStatus.OK);
+        }
         else {
 
             Movie movie = modelMapper.map(movieRequest, Movie.class);
@@ -48,33 +50,32 @@ public class MovieServiceImpl implements MovieService {
     }
 
 
-
     @Override
     public ResponseEntity<List<Movie>> getAll(int pageNo, int pageSize) {
 
-        Pageable pageable= PageRequest.of(pageNo,pageSize);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
 
-        Page<Movie> movies=movieRepo.findAll(pageable);
+        Page<Movie> movies = movieRepo.findAll(pageable);
 
-        return new ResponseEntity<>(movies.getContent(),HttpStatus.OK);
+        return new ResponseEntity<>(movies.getContent(), HttpStatus.OK);
 
     }
 
     @Override
     public ResponseEntity<List<Movie>> searchByTitle(String title, int pageNo, int pageSize) {
 
-        Pageable pageable=PageRequest.of(pageNo,pageSize);
-        List<Movie>movies=movieRepo.findByTitleContaining(title,pageable);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<Movie> movies = movieRepo.findByTitleContaining(title, pageable);
 
-        return new ResponseEntity<>(movies,HttpStatus.OK);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<Movie>> searchByCategory(String category, int pageNo, int pageSize) {
-        Pageable pageable=PageRequest.of(pageNo,pageSize);
-        List<Movie>movies=movieRepo.findByType(category,pageable);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<Movie> movies = movieRepo.findByType(category, pageable);
 
-        return new ResponseEntity<>(movies,HttpStatus.OK);
+        return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
 }

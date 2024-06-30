@@ -30,10 +30,5 @@ public class GlobalExceptionHandler extends Exception {
         return errors;
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(Exception.class)
-    public String test(Exception e){
-        return "HELLO";
-    }
 
 }

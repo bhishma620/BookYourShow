@@ -49,4 +49,9 @@ public class MovieController {
         return movieService.searchByCategory(category,pageNo,pageSize);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateMovie(@PathVariable("id") long id,@Valid @RequestBody MovieRequest curMovie){
+        return movieService.updateMovie(id,curMovie);
+    }
+
 }

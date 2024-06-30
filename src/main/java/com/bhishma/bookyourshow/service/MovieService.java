@@ -17,4 +17,6 @@ public interface MovieService {
     ResponseEntity<List<Movie>> searchByTitle(String title, int pageNo, int pageSize);
 
     ResponseEntity<List<Movie>> searchByCategory(String category, int pageNo, int pageSize);
+
+    ResponseEntity<String> updateMovie(long id,MovieRequest curMovie);
 }

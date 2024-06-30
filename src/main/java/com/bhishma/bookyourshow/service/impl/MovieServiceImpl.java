@@ -78,4 +78,15 @@ public class MovieServiceImpl implements MovieService {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> updateMovie(long id,MovieRequest curMovie) {
+
+
+        Movie movie=modelMapper.map(curMovie,Movie.class);
+        movie.setId(id);
+
+        movieRepo.save(movie);
+        return new ResponseEntity<>("Updated",HttpStatus.OK);
+    }
+
 }

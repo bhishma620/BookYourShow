@@ -89,4 +89,10 @@ public class MovieServiceImpl implements MovieService {
         return new ResponseEntity<>("Updated",HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> deleteMovie(long id) {
+        movieRepo.deleteById(id);
+        return ResponseEntity.ok("Deleted Succcessfully");
+    }
+
 }

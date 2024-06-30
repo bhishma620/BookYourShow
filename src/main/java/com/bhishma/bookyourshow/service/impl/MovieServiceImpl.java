@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -26,16 +27,24 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public ResponseEntity<String> save(MovieRequest movieRequest) {
 
-        Movie movie = modelMapper.map(movieRequest, Movie.class);
 
-        try {
-            movieRepo.save(movie);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Failed To Saved", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        Optional<Movie> oldMovie =movieRepo.findByTitleAndReleaseDate(movieRequest.getTitle(),movieRequest.getReleaseDate());
+
+        //If already in DB
+        if(oldMovie.isPresent())return new ResponseEntity<>("Already Exists",HttpStatus.OK);
+        else {
+
+            Movie movie = modelMapper.map(movieRequest, Movie.class);
+
+            try {
+                movieRepo.save(movie);
+            } catch (Exception e) {
+                return new ResponseEntity<>("Failed To Saved", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            return new ResponseEntity<>("ADDED Successfully", HttpStatus.CREATED);
         }
-
-        return new ResponseEntity<>("ADDED Successfully", HttpStatus.CREATED);
-
     }
 
 

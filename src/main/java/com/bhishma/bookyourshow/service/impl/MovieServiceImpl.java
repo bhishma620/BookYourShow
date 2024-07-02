@@ -82,11 +82,17 @@ public class MovieServiceImpl implements MovieService {
     public ResponseEntity<String> updateMovie(long id,MovieRequest curMovie) {
 
 
-        Movie movie=modelMapper.map(curMovie,Movie.class);
-        movie.setId(id);
+        boolean isPresent=movieRepo.findById(id).isPresent();
+        if(isPresent) {
+            Movie movie = modelMapper.map(curMovie, Movie.class);
+            movie.setId(id);
 
-        movieRepo.save(movie);
-        return new ResponseEntity<>("Updated",HttpStatus.OK);
+            movieRepo.save(movie);
+            return new ResponseEntity<>("Updated", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override

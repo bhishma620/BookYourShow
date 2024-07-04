@@ -29,4 +29,15 @@ public class CinemaHallController {
         return cinemaHallService.getCinemaHallByCity(city,pageNo,pageSize);
     }
 
+    // get By CinemaHall name
+    @GetMapping("/search/byName")
+    ResponseEntity<List<CinemaHall>> getCinemaHallByName(@RequestParam ("name") String name,
+                                                   @RequestParam (defaultValue = "0") int pageNo,
+                                                   @RequestParam (defaultValue = "10") int pageSize){
+        return cinemaHallService.getCinemaHallByName(name,pageNo,pageSize);
+    }
+
+
+
+
 }

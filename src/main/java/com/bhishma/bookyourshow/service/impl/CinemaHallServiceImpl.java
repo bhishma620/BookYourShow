@@ -50,4 +50,13 @@ public class CinemaHallServiceImpl implements CinemaHallService {
 
 
     }
+
+    @Override
+    public ResponseEntity<List<CinemaHall>> getCinemaHallByName(String name, int pageNo, int pageSize) {
+        Pageable pageable=  PageRequest.of(pageNo,pageSize);
+
+        List<CinemaHall> cinemaHalls= cinemaHallRepo.findByNameContaining(name,pageable).getContent();
+
+        return new ResponseEntity<>(cinemaHalls,HttpStatus.OK);
+    }
 }

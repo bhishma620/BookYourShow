@@ -13,4 +13,6 @@ public interface CinemaHallService {
     ResponseEntity<List<CinemaHall>> getCinemaHallByCity(String city, int pageNo, int pageSize);
 
     ResponseEntity<List<CinemaHall>> getCinemaHallByName(String name, int pageNo, int pageSize);
+
+    ResponseEntity<String> updateCinemaHall(long id, CinemaHallRequest cinemaHall);
 }

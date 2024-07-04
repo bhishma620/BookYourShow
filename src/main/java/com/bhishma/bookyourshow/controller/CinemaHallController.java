@@ -37,6 +37,14 @@ public class CinemaHallController {
         return cinemaHallService.getCinemaHallByName(name,pageNo,pageSize);
     }
 
+    //update details
+
+    @PutMapping("/{id}")
+    ResponseEntity<String> updateCinemaHall(@PathVariable("id") long id,
+                                            @Valid @RequestBody CinemaHallRequest cinemaHall){
+        return cinemaHallService.updateCinemaHall(id,cinemaHall);
+    }
+
 
 
 

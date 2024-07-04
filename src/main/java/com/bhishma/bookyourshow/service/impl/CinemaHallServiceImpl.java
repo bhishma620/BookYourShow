@@ -83,4 +83,18 @@ public class CinemaHallServiceImpl implements CinemaHallService {
         }
 
     }
+
+    @Override
+    public ResponseEntity<String> delete(long id) {
+
+        boolean isPresent = cinemaHallRepo.findById(id).isPresent();
+
+        if (isPresent) {
+            cinemaHallRepo.deleteById(id);
+            return new ResponseEntity<>("Deleted",HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+        }
+    }
 }

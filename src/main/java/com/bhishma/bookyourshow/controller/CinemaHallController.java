@@ -45,6 +45,12 @@ public class CinemaHallController {
         return cinemaHallService.updateCinemaHall(id,cinemaHall);
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<String> delete(@PathVariable("id") long id){
+        return cinemaHallService.delete(id);
+    }
+
+
 
 
 

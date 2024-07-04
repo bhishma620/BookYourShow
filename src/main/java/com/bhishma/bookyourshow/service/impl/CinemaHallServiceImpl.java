@@ -6,9 +6,14 @@ import com.bhishma.bookyourshow.request.cinemahall.CinemaHallRequest;
 import com.bhishma.bookyourshow.service.CinemaHallService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+
+import java.util.List;
 
 @Service
 public class CinemaHallServiceImpl implements CinemaHallService {
@@ -31,6 +36,18 @@ public class CinemaHallServiceImpl implements CinemaHallService {
             cinemaHallRepo.save(hall);
             return new ResponseEntity<>("Saved",HttpStatus.OK);
         }
+
+    }
+
+    @Override
+    public ResponseEntity<List<CinemaHall>> getCinemaHallByCity(String city, int pageNo, int pageSize) {
+
+        Pageable pageable=  PageRequest.of(pageNo,pageSize);
+
+       List<CinemaHall> cinemaHalls= cinemaHallRepo.findByCity(city,pageable).getContent();
+
+       return new ResponseEntity<>(cinemaHalls,HttpStatus.OK);
+
 
     }
 }

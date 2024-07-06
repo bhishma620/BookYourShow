@@ -14,4 +14,6 @@ public interface TheaterService {
     ResponseEntity<List<TheaterResponse>> getAllByCinemaHallId(long cinemaHallId,int pageNo, int pageSize);
 
     ResponseEntity<String> update(long id, TheaterRequest theaterRequest);
+
+    ResponseEntity<String> delete(long id);
 }

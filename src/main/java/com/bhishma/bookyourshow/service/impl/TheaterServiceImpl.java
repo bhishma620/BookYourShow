@@ -83,4 +83,17 @@ public class TheaterServiceImpl implements TheaterService {
             return new ResponseEntity<>("Not found",HttpStatus.NOT_FOUND);
         }
     }
+
+    @Override
+    public ResponseEntity<String> delete(long id) {
+        Optional<Theater> theater=theaterRepo.findById(id);
+
+        if(theater.isPresent()){
+            theaterRepo.deleteById(id);
+            return new ResponseEntity<>("Deleted",HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Not found",HttpStatus.NOT_FOUND);
+        }
+    }
 }

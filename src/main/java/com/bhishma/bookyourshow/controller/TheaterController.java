@@ -45,4 +45,9 @@ public class TheaterController {
         return theaterService.update(id,theaterRequest);
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<String>delete(@PathVariable("id") long id){
+        return theaterService.delete(id);
+    }
+
 }

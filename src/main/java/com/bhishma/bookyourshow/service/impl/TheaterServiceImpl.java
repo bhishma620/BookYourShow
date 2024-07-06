@@ -67,4 +67,20 @@ public class TheaterServiceImpl implements TheaterService {
         return new ResponseEntity<>(responses,HttpStatus.OK);
 
     }
+
+    @Override
+    public ResponseEntity<String> update(long id, TheaterRequest theaterRequest) {
+        Optional<Theater> theater=theaterRepo.findById(id);
+
+        if(theater.isPresent()){
+            Theater previous=theater.get();
+            previous.setCapacity(theaterRequest.getCapacity());
+            previous.setName(theaterRequest.getName());
+            theaterRepo.save(previous);
+           return new ResponseEntity<>("Updated",HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Not found",HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -38,4 +38,11 @@ public class TheaterController {
         return theaterService.getAllByCinemaHallId(cinemaHallId,pageNo,pageSize);
 
     }
+
+    @PutMapping("{id}")
+    ResponseEntity<String>update(@PathVariable("id") long id,
+                                 @Valid @RequestBody TheaterRequest theaterRequest){
+        return theaterService.update(id,theaterRequest);
+    }
+
 }

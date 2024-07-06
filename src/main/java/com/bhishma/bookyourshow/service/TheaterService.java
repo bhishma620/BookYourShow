@@ -12,4 +12,6 @@ public interface TheaterService {
    ResponseEntity<TheaterResponse> getTheaterDetailsByCinemaHallIdAndTheaterId(long cinemaHallId, long theaterId);
 
     ResponseEntity<List<TheaterResponse>> getAllByCinemaHallId(long cinemaHallId,int pageNo, int pageSize);
+
+    ResponseEntity<String> update(long id, TheaterRequest theaterRequest);
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("v1/theater")
 @RestController
 public class TheaterController {
@@ -21,10 +23,19 @@ public class TheaterController {
         return theaterService.add(theater);
     }
 
-    @GetMapping()
+    @GetMapping("/search/byTheater")
     ResponseEntity<TheaterResponse> getTheaterDetailsByCinemaHallIdAndTheaterId
             (@RequestParam("cinema-hallId") long cinemaHallId,
              @RequestParam("theaterId") long theaterId) {
-        return theaterService.getTheaterDetailsByCinemaHallIdAndTheaterId(cinemaHallId,theaterId);
+        return theaterService.getTheaterDetailsByCinemaHallIdAndTheaterId(cinemaHallId, theaterId);
+    }
+
+    @GetMapping("/search/byCinemaHall")
+    ResponseEntity<List<TheaterResponse>> getAllByCinemaHallId(@RequestParam("cinema-hallId") long cinemaHallId,
+                                                               @RequestParam(defaultValue = "0") int pageNo,
+                                                               @RequestParam(defaultValue = "10") int pageSize) {
+
+        return theaterService.getAllByCinemaHallId(cinemaHallId,pageNo,pageSize);
+
     }
 }

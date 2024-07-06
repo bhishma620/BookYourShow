@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface  TheaterRepo extends JpaRepository<Theater,Long> {
 
     Optional<Theater> findByCinemaHallIdAndName(long cinemaHallId, String name);
+
+    Optional<Theater> findByCinemaHallIdAndId(long cinemaHallId, long theaterId);
 }

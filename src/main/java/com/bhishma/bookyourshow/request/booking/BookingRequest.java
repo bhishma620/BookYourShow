@@ -11,4 +11,6 @@ public class BookingRequest {
     private long slotId;
 
     private long ticketId;
+
+    private long userId;
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 public class BookingResponse implements Serializable {
     private long bookingId;
 
-    private LocalDateTime time;
+    private String time;
 
     private HttpStatus status;
 }

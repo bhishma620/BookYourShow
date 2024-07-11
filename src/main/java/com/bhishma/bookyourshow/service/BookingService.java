@@ -1,9 +1,10 @@
 package com.bhishma.bookyourshow.service;
 
+import com.bhishma.bookyourshow.request.booking.BookingRequest;
 import com.bhishma.bookyourshow.response.booking.BookingResponse;
 
 public interface BookingService {
 
 
-    BookingResponse bookTicket(long cinemaHallId, long theaterId, long slotId, long ticketId);
+    BookingResponse bookTicket(BookingRequest bookingRequest);
 }

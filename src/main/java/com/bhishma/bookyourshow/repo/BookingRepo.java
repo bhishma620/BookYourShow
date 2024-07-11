@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface BookingRepo extends JpaRepository<Booking,Long> {
 
-    Optional<Booking> findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(long cinemaHallId, long theaterId, long slotId, long ticketId);
+    Optional<Booking> findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketIdAndUserId(long cinemaHallId, long theaterId,
+                                                                         long slotId, long ticketId,
+                                                                         long userId );
 }
 

@@ -20,23 +20,14 @@ public class BookingController {
 
     @PostMapping("")
     ResponseEntity<BookingResponse> bookTicket(@RequestBody BookingRequest bookingDetails){
-        BookingResponse bookingResponse = bookingService.bookTicket(bookingDetails.getCinemaHallId(),
-                bookingDetails.getTheaterId(),bookingDetails.getSlotId(),bookingDetails.getTicketId());
 
+        BookingResponse bookingResponse = bookingService.bookTicket(bookingDetails);
 
-        boolean fromDb = new BookingServiceImpl().isFromDb();
-
-        if(fromDb){
-            return ResponseEntity.ok()
-                    .header("X-Data-Source","DB")
-                    .body(bookingResponse);
-        }
-        else {
-           return  ResponseEntity.ok()
-                    .header("X-Data-Source", "CACHE" )
-                    .body(new BookingResponse());
-        }
-
+       return ResponseEntity.ok(bookingResponse);
     }
+
+
+
+
 }
 

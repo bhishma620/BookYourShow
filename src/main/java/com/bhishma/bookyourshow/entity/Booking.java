@@ -27,6 +27,8 @@ public class Booking implements Serializable {
 
     private long ticketId;
 
-    private LocalDateTime time;
+    private long userId;
+
+    private String time;
 
 }

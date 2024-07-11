@@ -3,6 +3,7 @@ package com.bhishma.bookyourshow.service.impl;
 import com.bhishma.bookyourshow.config.BookingCacheKey;
 import com.bhishma.bookyourshow.entity.Booking;
 import com.bhishma.bookyourshow.repo.BookingRepo;
+import com.bhishma.bookyourshow.request.booking.BookingRequest;
 import com.bhishma.bookyourshow.response.booking.BookingResponse;
 import com.bhishma.bookyourshow.service.BookingService;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Optional;
 
@@ -29,34 +31,45 @@ public class BookingServiceImpl implements BookingService {
     private static final ThreadLocal<Boolean> fromCache = ThreadLocal.withInitial(() -> false);
 
     @Override
-    @Cacheable(cacheNames = "BookingResponse",keyGenerator = "bookingCacheKey")
-    public BookingResponse bookTicket(long cinemaHallId, long theaterId, long slotId, long ticketId) {
+    public BookingResponse bookTicket(BookingRequest bookingRequest) {
 
         BookingResponse response = new BookingResponse();
+        System.out.println(bookingRequest.getCinemaHallId());
 
         Optional<Booking> booking = bookingRepo.
-                findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(cinemaHallId,theaterId,slotId,ticketId);
+                findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketIdAndUserId(bookingRequest.getCinemaHallId(),
+                        bookingRequest.getTheaterId(),bookingRequest.getSlotId(),bookingRequest.getTicketId(),
+                        bookingRequest.getUserId());
 
         if(booking.isPresent()){
             response.setStatus(HttpStatus.CONFLICT);
         }
         else{
-            Booking booking1 = new Booking();
-            booking1.setTicketId(ticketId);
-            booking1.setTheaterId(theaterId);
-            booking1.setCinemaHallId(cinemaHallId);
-            booking1.setSlotId(slotId);
-            booking1.setTime(LocalDateTime.now());
+//            Booking bookingDetails = modelMapper.map(bookingRequest,Booking.class);
+            Booking bookingDetails = new Booking();
 
-            Booking saved =bookingRepo.save(booking1);
+            bookingDetails.setTicketId(bookingRequest.getTicketId());
+            bookingDetails.setSlotId(bookingRequest.getSlotId());
+            bookingDetails.setTheaterId(bookingRequest.getTheaterId());
+            bookingDetails.setUserId(bookingRequest.getUserId());
+            bookingDetails.setCinemaHallId(bookingRequest.getCinemaHallId());
+
+            LocalDateTime now = LocalDateTime.now();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedNow = now.format(formatter);
+
+            bookingDetails.setTime(formattedNow);
+
+            System.out.println(bookingDetails);
+
+
+            Booking saved =bookingRepo.save(bookingDetails);
 
             response.setBookingId(saved.getBookingId());
             response.setTime(saved.getTime());
             response.setStatus(HttpStatus.OK);
         }
-        fromCache.set(true);
-
-
         return response;
 
     }
@@ -65,4 +78,6 @@ public class BookingServiceImpl implements BookingService {
         fromCache.remove();
         return cacheStatus;
     }
+
+
 }

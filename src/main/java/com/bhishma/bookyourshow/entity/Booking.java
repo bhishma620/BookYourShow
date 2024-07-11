@@ -29,6 +29,8 @@ public class Booking implements Serializable {
 
     private long userId;
 
+    private int status;
+
     private String time;
 
 }

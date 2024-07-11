@@ -5,6 +5,7 @@ import com.bhishma.bookyourshow.entity.Booking;
 import com.bhishma.bookyourshow.repo.BookingRepo;
 import com.bhishma.bookyourshow.request.booking.BookingRequest;
 import com.bhishma.bookyourshow.response.booking.BookingResponse;
+import com.bhishma.bookyourshow.response.booking.CheckStatus;
 import com.bhishma.bookyourshow.service.BookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,45 +35,90 @@ public class BookingServiceImpl implements BookingService {
     public BookingResponse bookTicket(BookingRequest bookingRequest) {
 
         BookingResponse response = new BookingResponse();
-        System.out.println(bookingRequest.getCinemaHallId());
 
         Optional<Booking> booking = bookingRepo.
-                findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketIdAndUserId(bookingRequest.getCinemaHallId(),
-                        bookingRequest.getTheaterId(),bookingRequest.getSlotId(),bookingRequest.getTicketId(),
-                        bookingRequest.getUserId());
+                findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(bookingRequest.getCinemaHallId(),
+                        bookingRequest.getTheaterId(),bookingRequest.getSlotId(),bookingRequest.getTicketId());
 
-        if(booking.isPresent()){
-            response.setStatus(HttpStatus.CONFLICT);
-        }
-        else{
-//            Booking bookingDetails = modelMapper.map(bookingRequest,Booking.class);
-            Booking bookingDetails = new Booking();
+        if(booking.isPresent()) {
+            if (booking.get().getStatus() == 1) {
+                response.setStatus(HttpStatus.CONFLICT);
+            } else {
 
-            bookingDetails.setTicketId(bookingRequest.getTicketId());
-            bookingDetails.setSlotId(bookingRequest.getSlotId());
-            bookingDetails.setTheaterId(bookingRequest.getTheaterId());
-            bookingDetails.setUserId(bookingRequest.getUserId());
-            bookingDetails.setCinemaHallId(bookingRequest.getCinemaHallId());
+                LocalDateTime now = LocalDateTime.now();
 
-            LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedNow = now.format(formatter);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedNow = now.format(formatter);
+                bookingRepo.updateUserAndStatus(bookingRequest.getSlotId(),
+                        bookingRequest.getTicketId(), formattedNow, bookingRequest.getUserId(), 1);
 
-            bookingDetails.setTime(formattedNow);
+                response.setBookingId(booking.get().getBookingId());
+                response.setTime(formattedNow);
 
-            System.out.println(bookingDetails);
-
-
-            Booking saved =bookingRepo.save(bookingDetails);
-
-            response.setBookingId(saved.getBookingId());
-            response.setTime(saved.getTime());
-            response.setStatus(HttpStatus.OK);
+                response.setStatus(HttpStatus.OK);
+            }
         }
         return response;
 
     }
+
+    @Override
+    @Cacheable(cacheNames = "CheckStatus" ,keyGenerator = "bookingCacheKey")
+    public CheckStatus checkTicketStatus(long cinemaHallId, long theaterId, long slotId, long ticketId) {
+
+        fromCache.set(true);
+
+        CheckStatus response = new CheckStatus();
+
+        Optional<Booking> booking = bookingRepo.findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(cinemaHallId,
+                theaterId,slotId,ticketId);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedNow = now.format(formatter);
+
+
+        if(booking.isPresent()) {
+
+            if (booking.get().getStatus() == 1) {
+                response.setResponse("Already Booked");
+                response.setStatus(HttpStatus.CONFLICT);
+
+            } else {
+                bookingRepo.updateBySlotIdAndTicketId(slotId,ticketId,formattedNow);
+//                System.out.println(formattedNow+" "+slotId+" "+ticketId);
+                response.setResponse("Good to GO");
+                response.setStatus(HttpStatus.OK);
+
+            }
+        }
+        else{
+            Booking booking1 = new Booking();
+
+            booking1.setTicketId(ticketId);
+            booking1.setSlotId(slotId);
+            booking1.setTheaterId(theaterId);
+            booking1.setCinemaHallId(cinemaHallId);
+
+
+            booking1.setTime(formattedNow);
+
+
+            bookingRepo.save(booking1);
+
+            response.setResponse("Good to GO");
+            response.setStatus(HttpStatus.OK);
+
+        }
+
+
+        return response;
+
+
+    }
+
     public boolean isFromDb() {
         boolean cacheStatus = fromCache.get();
         fromCache.remove();

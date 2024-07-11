@@ -47,6 +47,9 @@ public class RedisConfig {
 
         cacheConfigurations.put("BookingResponse",conf_booking_info);
 
+        cacheConfigurations.put("CheckStatus",conf_booking_info);
+
+
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
                 .withInitialCacheConfigurations(cacheConfigurations).build();
     }

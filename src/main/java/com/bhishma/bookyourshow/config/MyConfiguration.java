@@ -10,4 +10,9 @@ public class MyConfiguration {
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }
+
+    @Bean
+    public BookingCacheKey bookingCacheKey(){
+        return new BookingCacheKey();
+    }
 }

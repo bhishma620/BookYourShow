@@ -13,3 +13,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+booking:
+  wait-time: 1 #in minutes
+
+

@@ -1,5 +1,6 @@
 package com.bhishma.bookyourshow.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -15,6 +16,8 @@ import java.util.Map;
 @Configuration
 public class RedisConfig {
 
+    @Value("${booking.wait-time}")
+    private int waitTime;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
@@ -37,7 +40,7 @@ public class RedisConfig {
                 .entryTtl(Duration.ofMillis(60000));
 
         RedisCacheConfiguration conf_booking_info=RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMillis(30000));
+                .entryTtl(Duration.ofMillis(waitTime*60*1000));
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<String, RedisCacheConfiguration>();
 

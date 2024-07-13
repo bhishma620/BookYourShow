@@ -6,9 +6,11 @@ import com.bhishma.bookyourshow.repo.BookingRepo;
 import com.bhishma.bookyourshow.request.booking.BookingRequest;
 import com.bhishma.bookyourshow.response.booking.BookingResponse;
 import com.bhishma.bookyourshow.response.booking.CheckStatus;
+import com.bhishma.bookyourshow.response.booking.SeatStatus;
 import com.bhishma.bookyourshow.service.BookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +26,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     BookingRepo bookingRepo;
+
+    @Value("${booking.wait-time}")
+    private int waitTime;
 
 
 
@@ -117,6 +123,16 @@ public class BookingServiceImpl implements BookingService {
         return response;
 
 
+    }
+
+    @Override
+    public List<SeatStatus> getSeatStatusBySlotId(long slotId) {
+
+
+
+        List<SeatStatus> response = bookingRepo.getSeatStatusBySlotId(slotId,waitTime);
+
+        return response;
     }
 
     public boolean isFromDb() {

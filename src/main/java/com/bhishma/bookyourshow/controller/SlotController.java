@@ -7,10 +7,9 @@ import com.bhishma.bookyourshow.service.SlotService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalTime;
 
 @RestController
 @RequestMapping("v1/slot")
@@ -25,6 +24,12 @@ public class SlotController {
 
        return slotService.createSlot(slot);
     }
+
+    @PutMapping("/{id}")
+    ResponseEntity<String> updateSlot(@PathVariable("id") long slotId, @RequestParam("time") LocalTime time){
+        return slotService.updateSlot(slotId, time);
+    }
+
 
 
 }

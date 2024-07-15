@@ -14,4 +14,6 @@ public interface SlotService {
     ResponseEntity<String> updateSlot(long slotId, LocalTime time);
 
     ResponseEntity<List<SlotResponse>> getSlotByDateAndCinemaHallId(LocalDate date, long cinemaHallId);
+
+    ResponseEntity<String> deleteSlot(long id);
 }

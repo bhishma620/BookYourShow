@@ -96,4 +96,20 @@ public class SlotServiceImpl implements SlotService {
 
     }
 
+    @Override
+    public ResponseEntity<String> deleteSlot(long slotId) {
+
+        Optional<Slot> slot = slotRepo.findById(slotId);
+
+        if(slot.isPresent()){
+
+            slotRepo.deleteById(slotId);
+            return ResponseEntity.ok("Successfully Updated");
+
+        }
+
+        return new ResponseEntity<>("No Slot found",HttpStatus.NOT_FOUND);
+
+    }
+
 }

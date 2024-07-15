@@ -41,6 +41,11 @@ public class SlotController {
     }
 
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<String> deleteSlot(@PathVariable long id){
+        return slotService.deleteSlot(id);
+    }
+
 
 
 }

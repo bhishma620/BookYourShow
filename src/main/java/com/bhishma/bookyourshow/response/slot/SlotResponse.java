@@ -8,6 +8,8 @@ import java.time.LocalTime;
 @Data
 public class SlotResponse {
 
+    private long slotId;
+
     private long cinemaHallId;
 
     private long movieId;

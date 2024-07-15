@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("v1/slot")
@@ -29,6 +31,15 @@ public class SlotController {
     ResponseEntity<String> updateSlot(@PathVariable("id") long slotId, @RequestParam("time") LocalTime time){
         return slotService.updateSlot(slotId, time);
     }
+
+    @GetMapping("")
+    ResponseEntity<List<SlotResponse>> getSlotByDateAndCinemaHallId(@RequestParam("date")LocalDate date,
+                                                                    @RequestParam("cinemaHallId") long cinemaHallId){
+
+
+        return slotService.getSlotByDateAndCinemaHallId(date, cinemaHallId);
+    }
+
 
 
 

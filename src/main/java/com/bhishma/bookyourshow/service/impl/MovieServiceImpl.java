@@ -81,8 +81,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public ResponseEntity<String> updateMovie(long id,MovieRequest curMovie) {
 
-
         boolean isPresent=movieRepo.findById(id).isPresent();
+
         if(isPresent) {
             Movie movie = modelMapper.map(curMovie, Movie.class);
             movie.setId(id);
@@ -91,14 +91,23 @@ public class MovieServiceImpl implements MovieService {
             return new ResponseEntity<>("Updated", HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("Not Found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Movie  Found with id "+id,HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public ResponseEntity<String> deleteMovie(long id) {
-        movieRepo.deleteById(id);
-        return ResponseEntity.ok("Deleted Succcessfully");
+
+        boolean isPresent=movieRepo.findById(id).isPresent();
+
+        if(isPresent) {
+            movieRepo.deleteById(id);
+            return ResponseEntity.ok("Deleted Succcessfully");
+        }
+        else {
+            return new ResponseEntity<>("No Movie  Found with id " + id, HttpStatus.NOT_FOUND);
+        }
+
     }
 
 }

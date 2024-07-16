@@ -33,7 +33,7 @@ public class MovieServiceImpl implements MovieService {
 
         //If already in DB
         if (oldMovie.isPresent()){
-            return new ResponseEntity<>("Already Exists", HttpStatus.OK);
+            return new ResponseEntity<>("Already Exists", HttpStatus.CONFLICT);
         }
         else {
 

@@ -36,7 +36,7 @@ public class TheaterServiceImpl implements TheaterService {
         } else {
             Theater theater1 = modelMapper.map(theater, Theater.class);
             theaterRepo.save(theater1);
-            return new ResponseEntity<>("Saved", HttpStatus.OK);
+            return new ResponseEntity<>("Added Successfully", HttpStatus.OK);
         }
     }
 
@@ -80,7 +80,7 @@ public class TheaterServiceImpl implements TheaterService {
            return new ResponseEntity<>("Updated",HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("Not found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Theater Found with Id " + id ,HttpStatus.NOT_FOUND);
         }
     }
 
@@ -90,10 +90,10 @@ public class TheaterServiceImpl implements TheaterService {
 
         if(theater.isPresent()){
             theaterRepo.deleteById(id);
-            return new ResponseEntity<>("Deleted",HttpStatus.OK);
+            return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("Not found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Theater Found with Id " + id,HttpStatus.NOT_FOUND);
         }
     }
 }

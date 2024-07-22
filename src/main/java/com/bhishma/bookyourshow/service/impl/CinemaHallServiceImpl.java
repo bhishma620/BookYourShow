@@ -79,7 +79,7 @@ public class CinemaHallServiceImpl implements CinemaHallService {
             }
 
         } else {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Cinema hall  found with id "+id, HttpStatus.NOT_FOUND);
         }
 
     }
@@ -94,7 +94,7 @@ public class CinemaHallServiceImpl implements CinemaHallService {
             return new ResponseEntity<>("Deleted",HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Cinema hall  found with id "+id, HttpStatus.NOT_FOUND);
         }
     }
 }

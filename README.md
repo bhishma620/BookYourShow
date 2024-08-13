@@ -24,6 +24,11 @@ BookYourShow is a web application designed to provide users with a seamless expe
 * Comprehensive dashboard for managing movies, events, theaters, and user bookings.
 
 
+## Tech Stack Used
+
+Spring Boot, Java Persistance API, MySQL, Redis, REST - API 
+
+
 ## User API Reference
 
 ### Admin Functionality

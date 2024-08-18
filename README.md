@@ -29,7 +29,103 @@ BookYourShow is a web application designed to provide users with a seamless expe
 Spring Boot, Java Persistance API, MySQL, Redis, REST - API 
 
 
-## User API Reference
+## API Reference
+### User Functionality
+
+### 1. Booking  
+#### Description :
+For Checking a seat is available or not
+
+```http
+  POST /v1/booking/check
+```
+
+##### Request Body
+The request body should be in JSON format and contain the following fields:
+
+
+| Property       | Type   | Description                                    |
+|----------------|--------|------------------------------------------------|
+| `cinemaHallId` | `long` | Unique identifier for the cinema hall          |
+| `theaterId`    | `long` | Unique identifier for the theater              |
+| `slotId`       | `long` | Unique identifier for the movie slot           |
+| `seatId`     | `long` |  Unique identifier for the seat               |
+| `userId`       | `long` | Unique identifier for the user                 |
+
+#### Example JSON
+
+```json
+{
+  "cinemaHallId": 101,
+  "theaterId": 202,
+  "slotId": 303,
+  "seatId": 404,
+  "userId": 505
+}
+```
+
+#### Response 
+```json
+{
+    "response": "Booking On-Going",
+    "status": "OK"
+}
+```
+OR
+```json
+{
+    "response": "Good to Go",
+    "status": "OK"
+}
+```
+#### Description :
+To book a seat after checking availability
+
+```http
+  POST /v1/booking
+```
+##### Request Body
+The request body should be in JSON format and contain the following fields:
+
+
+| Property       | Type   | Description                                    |
+|----------------|--------|------------------------------------------------|
+| `cinemaHallId` | `long` | Unique identifier for the cinema hall          |
+| `theaterId`    | `long` | Unique identifier for the theater              |
+| `slotId`       | `long` | Unique identifier for the movie slot           |
+| `seatId`     | `long` |  Unique identifier for the seat               |
+| `userId`       | `long` | Unique identifier for the user                 |
+
+#### Example JSON
+
+```json
+{
+  "cinemaHallId": 101,
+  "theaterId": 202,
+  "slotId": 303,
+  "seatId": 404,
+  "userId": 505
+}
+```
+
+#### Response 
+```json
+{
+    "bookingId": 952,
+    "time": "2024-08-18 19:47:17",
+    "status": "OK"
+}
+```
+OR
+```json
+{
+    "bookingId": 0,
+    "time": null,
+    "status": "CONFLICT"
+}
+```
+
+
 
 ### Admin Functionality
 

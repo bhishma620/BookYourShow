@@ -125,7 +125,36 @@ OR
 }
 ```
 
+#### Descirption 
+Get all seat satus by slotId
 
+```http
+   GET /v1/booking/{slotId}
+```
+
+#### Response
+```json
+[
+    {
+        "seatId": 0,
+        "status": 0
+    },
+    {
+        "seatId": 6,
+        "status": 1
+    },
+    {
+        "seatId": 68,
+        "status": -1
+    }
+]
+```
+
+```
+Status 0 : Not BOOKED
+Status 1 : BOOKED
+Status -1 : SOMEONE BOOKING But Not Completed Yet
+```
 
 ### Admin Functionality
 

@@ -43,8 +43,8 @@ public class BookingServiceImpl implements BookingService {
         BookingResponse response = new BookingResponse();
 
         Optional<Booking> booking = bookingRepo.
-                findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(bookingRequest.getCinemaHallId(),
-                        bookingRequest.getTheaterId(),bookingRequest.getSlotId(),bookingRequest.getTicketId());
+                findByCinemaHallIdAndTheaterIdAndSlotIdAndSeatId(bookingRequest.getCinemaHallId(),
+                        bookingRequest.getTheaterId(),bookingRequest.getSlotId(),bookingRequest.getSeatId());
 
         if(booking.isPresent()) {
             if (booking.get().getStatus() == 1) {
@@ -57,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
                 String formattedNow = now.format(formatter);
 
                 bookingRepo.updateUserAndStatus(bookingRequest.getSlotId(),
-                        bookingRequest.getTicketId(), formattedNow, bookingRequest.getUserId(), 1);
+                        bookingRequest.getSeatId(), formattedNow, bookingRequest.getUserId(), 1);
 
                 response.setBookingId(booking.get().getBookingId());
                 response.setTime(formattedNow);
@@ -71,14 +71,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Cacheable(cacheNames = "CheckStatus" ,keyGenerator = "bookingCacheKey")
-    public CheckStatus checkTicketStatus(long cinemaHallId, long theaterId, long slotId, long ticketId) {
+    public CheckStatus checkTicketStatus(long cinemaHallId, long theaterId, long slotId, long seatId) {
 
         fromCache.set(true);
 
         CheckStatus response = new CheckStatus();
 
-        Optional<Booking> booking = bookingRepo.findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(cinemaHallId,
-                theaterId,slotId,ticketId);
+        Optional<Booking> booking = bookingRepo.findByCinemaHallIdAndTheaterIdAndSlotIdAndSeatId(cinemaHallId,
+                theaterId,slotId,seatId);
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -93,7 +93,7 @@ public class BookingServiceImpl implements BookingService {
                 response.setStatus(HttpStatus.CONFLICT);
 
             } else {
-                bookingRepo.updateBySlotIdAndTicketId(slotId,ticketId,formattedNow);
+                bookingRepo.updateBySlotIdAndTicketId(slotId,seatId,formattedNow);
 //                System.out.println(formattedNow+" "+slotId+" "+ticketId);
                 response.setResponse("Good to GO");
                 response.setStatus(HttpStatus.OK);
@@ -103,7 +103,7 @@ public class BookingServiceImpl implements BookingService {
         else{
             Booking booking1 = new Booking();
 
-            booking1.setTicketId(ticketId);
+            booking1.setSeatId(seatId);
             booking1.setSlotId(slotId);
             booking1.setTheaterId(theaterId);
             booking1.setCinemaHallId(cinemaHallId);

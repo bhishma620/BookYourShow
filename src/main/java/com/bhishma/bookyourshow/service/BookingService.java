@@ -12,7 +12,7 @@ public interface BookingService {
 
     BookingResponse bookTicket(BookingRequest bookingRequest);
 
-    CheckStatus checkTicketStatus(long cinemaHallId, long theaterId, long slotId, long ticketId);
+    CheckStatus checkTicketStatus(long cinemaHallId, long theaterId, long slotId, long seatId);
 
     List<SeatStatus> getSeatStatusBySlotId(long slotId);
 }

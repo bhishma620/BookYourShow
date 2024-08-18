@@ -25,7 +25,7 @@ public class Booking implements Serializable {
 
     private long slotId;
 
-    private long ticketId;
+    private long seatId;
 
     private long userId;
 

@@ -13,25 +13,25 @@ import java.util.Optional;
 
 public interface BookingRepo extends JpaRepository<Booking,Long> {
 
-    Optional<Booking> findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketIdAndUserId(long cinemaHallId, long theaterId,
-                                                                         long slotId, long ticketId,
+    Optional<Booking> findByCinemaHallIdAndTheaterIdAndSlotIdAndSeatIdAndUserId(long cinemaHallId, long theaterId,
+                                                                         long slotId, long seatId,
                                                                          long userId );
 
-    Optional<Booking> findByCinemaHallIdAndTheaterIdAndSlotIdAndTicketId(long cinemaHallId, long theaterId, long slotId, long ticketId);
+    Optional<Booking> findByCinemaHallIdAndTheaterIdAndSlotIdAndSeatId(long cinemaHallId, long theaterId, long slotId, long seatId);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Booking b SET b.time = :time, b.userId = :userId, b.status = :status WHERE b.slotId = :slotId AND b.ticketId = :ticketId")
-    int updateUserAndStatus(@Param("slotId") long slotId, @Param("ticketId") long ticketId, @Param("time") String time,
+    @Query("UPDATE Booking b SET b.time = :time, b.userId = :userId, b.status = :status WHERE b.slotId = :slotId AND b.seatId = :seatId")
+    int updateUserAndStatus(@Param("slotId") long slotId, @Param("seatId") long seatId, @Param("time") String time,
                             @Param("userId") long userId,@Param("status") int status);
     @Modifying
     @Transactional
-    @Query("UPDATE Booking b SET b.time = :time WHERE b.slotId = :slotId AND b.ticketId = :ticketId")
-    int updateBySlotIdAndTicketId(@Param("slotId") long slotId, @Param("ticketId") long ticketId, @Param("time") String time);
+    @Query("UPDATE Booking b SET b.time = :time WHERE b.slotId = :slotId AND b.seatId = :seatId")
+    int updateBySlotIdAndTicketId(@Param("slotId") long slotId, @Param("seatId") long seatId, @Param("time") String time);
 
 
 
-        @Query(value = "SELECT ticket_id AS seatId, " +
+        @Query(value = "SELECT seat_id AS seatId, " +
                 "CASE " +
                 "WHEN status = 0 AND ABS(TIMESTAMPDIFF(MINUTE, time, NOW())) < :waitTime THEN -1 " +
                 "ELSE status END AS status " +

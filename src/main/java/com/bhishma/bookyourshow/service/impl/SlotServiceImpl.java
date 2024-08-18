@@ -53,7 +53,7 @@ public class SlotServiceImpl implements SlotService {
             return ResponseEntity.ok("Successfully Created");
         }
 
-        return new ResponseEntity<>("Already Booked", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Already Booked", HttpStatus.CONFLICT);
 
     }
 
@@ -104,7 +104,7 @@ public class SlotServiceImpl implements SlotService {
         if(slot.isPresent()){
 
             slotRepo.deleteById(slotId);
-            return ResponseEntity.ok("Successfully Updated");
+            return ResponseEntity.ok("Successfully Deleted");
 
         }
 

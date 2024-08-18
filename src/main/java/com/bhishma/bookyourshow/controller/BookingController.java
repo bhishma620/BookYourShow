@@ -33,7 +33,7 @@ public class BookingController {
     ResponseEntity<CheckStatus> checkTicketStatus(@RequestBody BookingRequest bookingDetails){
 
         CheckStatus response = bookingService.checkTicketStatus(bookingDetails.getCinemaHallId(),
-                bookingDetails.getTheaterId(),bookingDetails.getSlotId(),bookingDetails.getTicketId());
+                bookingDetails.getTheaterId(),bookingDetails.getSlotId(),bookingDetails.getSeatId());
 
         boolean fromDb = new BookingServiceImpl().isFromDb();
 

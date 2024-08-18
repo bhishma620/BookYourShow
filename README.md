@@ -516,3 +516,118 @@ OR
 Status Code: 404 Not Found,
 Body: "No Theater Found with Id {id}"
 ```
+#### 4. Slot Management
+```http
+ POST /v1/slot
+```
+
+##### Description
+Adds Slot for a Theater 
+
+##### Request Body
+The request body should be in JSON format and contain the following fields:
+
+| Property        | Type         | Description                                    |
+|-----------------|--------------|------------------------------------------------|
+| `cinemaHallId`  | `long`       | Unique identifier for the cinema hall          |
+| `movieId`       | `long`       | Unique identifier for the movie                |
+| `theaterId`     | `long`       | Unique identifier for the theater              |
+| `startTime`     | `LocalTime`  | Start time of the movie slot                   |
+| `date`          | `LocalDate`  | Date of the movie slot                         |
+
+
+##### Example Request
+```json
+   {
+  "cinemaHallId": 101,
+  "movieId": 202,
+  "theaterId": 303,
+  "startTime": "14:30",
+  "date": "2024-08-18"
+}
+
+```
+##### Response
+
+```
+Status Code: 200 OK
+Body: Successfully Created
+```
+OR
+```
+Status Code: 409 CONFLICT
+Body: Already Booked
+```
+##### Description
+Update Slot start time for a Theater 
+
+```http
+    PUT /v1/slot/{slotId}?time={updatedStartTime}
+```
+
+##### Response
+
+```
+Status Code: 200 OK
+Body: Successfully Updated
+```
+OR
+```
+Status Code: 404 Not Found
+Body: No Slot Found
+```
+##### Description
+Get all slot of a date for paricular Cinema Hall
+
+```http
+    GET /v1/slot?date={date} & cinemaHallId = {cinemaHallId
+```
+##### Response
+```
+[
+    {
+        "slotId": 6,
+        "cinemaHallId": 1,
+        "movieId": 67891,
+        "theaterId": 112323,
+        "startTime": "15:30:00",
+        "date": "2024-07-16"
+    },
+    {
+        "slotId": 7,
+        "cinemaHallId": 1,
+        "movieId": 67892,
+        "theaterId": 112323,
+        "startTime": "15:30:00",
+        "date": "2024-07-16"
+    },
+    {
+        "slotId": 8,
+        "cinemaHallId": 1,
+        "movieId": 67893,
+        "theaterId": 112323,
+        "startTime": "15:30:00",
+        "date": "2024-07-16"
+    }
+]
+```
+
+##### Description
+Delete a slot By Slot Id
+
+```http
+   DELETE /v1/slot/{slotId}
+```
+##### Response
+
+```
+Status Code: 200 OK
+Body: Successfully Deleted
+```
+OR
+```
+Status Code: 404 Not Found
+Body: No Slot Found
+```
+
+
